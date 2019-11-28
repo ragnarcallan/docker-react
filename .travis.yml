@@ -6,9 +6,10 @@ before_install:
   - docker build -t ragnarcallan/docker-react -f Dockerfile.dev .
 
 script:
-  - docker run ragnarcallan/docker-react npm run test -- --coverage
+  - docker run -e CI=true ragnarcallan/docker-react npm run test 
 
   deploy:
+    edge: true
     provider: elasticbeanstalk
     region: "eu-west-2"
     app: "docker"
@@ -18,5 +19,5 @@ script:
     on:
       branch: master
     access_key_id: $AWS_ACCESS_KEY
-    secret_access_key: 
-      secure: "$AWS_SECRET_KEY"
+    secret_access_key: $AWS_SECRET_KEY
+      
